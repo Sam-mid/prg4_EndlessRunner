@@ -5,8 +5,9 @@ export class Ninja extends Actor {
 
     Instanceof;
 
-    engine
+    engine;
     weapon
+
 
     constructor(posX, posY) {
         super({
@@ -19,13 +20,17 @@ export class Ninja extends Actor {
         this.body.collisionType = CollisionType.Active
         this.body.useGravity = true
         this.graphics.use(Resources.Ninja.toSprite())
-        this.weapon = new Sword()
+
+
     }
 
 
     onInitialize(engine){
         this.engine = engine
         this.on("postupdate", ()=>this.resetPosition())
+        this.on("kill", (event)=>this.engine.goToScene('gameOver'))
+        this.weapon = new Sword()
+        engine.currentScene.add(this.weapon)
     }
 
     resetPosition(){
@@ -50,6 +55,7 @@ export class Ninja extends Actor {
     fall(){
         this.vel = this.vel.add(new vec(0, 80))
     }
+
 
 
 

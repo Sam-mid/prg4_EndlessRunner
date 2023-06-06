@@ -59,9 +59,8 @@ export class Scene1 extends Scene {
     updateScore() {
         this.score++
         this.mylabel.text = `Score: ${this.score}`
+        localStorage.setItem('scores', JSON.stringify(this.score));
     }
-
-
 
 }
 
