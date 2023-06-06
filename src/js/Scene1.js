@@ -1,31 +1,24 @@
-/*
 import '../css/style.css'
 import {Actor, Color, Engine, Physics, Vector, Label, FontUnit, Font, Scene} from "excalibur"
-import {Resources, ResourceLoader} from '../resources.js'
-import {Ninja} from '../ninja.js'
-import {Ground} from '../ground.js'
-import {Background} from '../background.js'
-import {Ground2} from "../ground2.js";
-import {Enemy} from "../enemy.js"
-import {Frog} from "../frog.js"
-import {Ninja2} from "../ninja2.js"
-import {Sword} from "../sword.js"
-import {Game} from "../game.js"
+import {Resources, ResourceLoader} from './resources.js'
+import {Ninja} from './ninja.js'
+import {Ground} from './ground.js'
+import {Background} from './background.js'
+import {Ground2} from "./ground2.js";
+import {Enemy} from "./enemy.js"
+import {Frog} from "./Frog.js"
+import {Ninja2} from "./ninja2.js"
+import {Sword} from "./sword.js"
 
-export class Scene1 extends Actor {
-
-    constructor() {
-        super({})
-        this.start(ResourceLoader).then(() => this.startGame())
-        this.updateScore()
-
-    }
+export class Scene1 extends Scene {
 
     score
     mylabel
-    Game
 
-    startGame(sceneKey, scene) {
+
+    onInitialize(engine) {
+
+        this.game = engine
 
         Physics.gravity = new Vector(0, 800)
         console.log("start de game!")
@@ -69,18 +62,6 @@ export class Scene1 extends Actor {
     }
 
 
-    onInitialize(engine) {
-        this.game = engine
-    }
 
-    onActivate(ctx) {
-        console.log("the scene has started!")
-    }
-
-    gameOver() {
-        this.game.goToScene('gameover')
-    }
 }
 
-new Game()
-*/

@@ -29,7 +29,7 @@ export class Ninja extends Actor {
     }
 
     resetPosition(){
-        this.engine.updateScore()
+        this.scene.updateScore()
     }
 
     onPreUpdate(engine) {
