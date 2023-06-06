@@ -1,15 +1,35 @@
 import {Actor,  SpriteSheet, CollisionType, Input, vec, Animation, Vector, range} from "excalibur";
 import {Resources} from "./resources.js";
+import {Sword} from "./sword.js"
 export class Ninja extends Actor {
+
+    Instanceof;
+
+    engine
+    weapon
+
     constructor(posX, posY) {
-        super();
-        this.pos = new Vector(100, 500)
+        super({
+            width: Resources.Ninja.width,
+            height: Resources.Ninja.height
+        });
+        this.pos = new Vector(100, 300)
         this.vel = new Vector(0, 0)
         this.scale = new Vector(0.1, 0.1);
         this.body.collisionType = CollisionType.Active
         this.body.useGravity = true
         this.graphics.use(Resources.Ninja.toSprite())
+        this.weapon = new Sword()
+    }
 
+
+    onInitialize(engine){
+        this.engine = engine
+        this.on("postupdate", ()=>this.resetPosition())
+    }
+
+    resetPosition(){
+        this.engine.updateScore()
     }
 
     onPreUpdate(engine) {
@@ -24,60 +44,30 @@ export class Ninja extends Actor {
 
     jump(){
         console.log("jump")
-        this.vel = this.vel.add(new vec( 0, -800))
+        this.vel = this.vel.add(new vec( 0, -500))
     }
 
     fall(){
         this.vel = this.vel.add(new vec(0, 80))
     }
 
+
+
+    /*
+    collisionCheck(collisionEvent, collisionString){
+        console.log(collisionEvent)
+
+        if (collisionEvent.other Instanceof Ground){
+            if(collisionString === 'start'){
+                this.isGrounded = true
+            }
+            else if (collisionString === 'end'){
+                this.isGrounded = false
+            }
+        }
+    }
+*/
+
+
 }
 
-
-export class Player extends Actor {
-    constructor() {
-        super();
-        // de player heeft zelf de hele spritesheet omdat er maar 1 player is
-        const runSheet = SpriteSheet.fromImageSource({
-            image: Resources.Player,
-            grid: { rows: 1, columns: 21, spriteWidth: 96, spriteHeight: 96 },
-        });
-        // test of alle sprites er zijn
-        console.log(runSheet.sprites);
-
-        const idle = runSheet.sprites[0]; // geen animatie
-        const runLeft = Animation.fromSpriteSheet(runSheet, range(1, 10), 80);
-        const runRight = Animation.fromSpriteSheet(runSheet, range(11, 20), 80);
-
-        this.graphics.add("idle", idle);
-        this.graphics.add("runleft", runLeft);
-        this.graphics.add("runright", runRight);
-
-        this.graphics.use(idle);
-    }
-    onInitialize(engine) {
-        this.pos = new Vector(400, 200);
-        this.vel = new Vector(0, 0);
-    }
-    onPreUpdate(engine) {
-        let xspeed = 0;
-        this.graphics.use("idle");
-
-        if (
-            engine.input.keyboard.isHeld(Input.Keys.A) ||
-            engine.input.keyboard.isHeld(Input.Keys.Left)
-        ) {
-            xspeed = -300;
-            this.graphics.use("runleft");
-        }
-        if (
-            engine.input.keyboard.isHeld(Input.Keys.D) ||
-            engine.input.keyboard.isHeld(Input.Keys.Right)
-        ) {
-            xspeed = 300;
-            this.graphics.use("runright");
-        }
-
-        this.vel = new Vector(xspeed, 0);
-    }
-}
